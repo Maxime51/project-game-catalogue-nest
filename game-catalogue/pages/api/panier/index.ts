@@ -18,15 +18,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
+  if (req.method === "POST") {
     const cookie = getCookie("appSession", { req, res });
+
     const mongodb = await getDatabase();
 
-    //get user with cookie
+    //get user with email
     const idUser = await mongodb
       .db()
       .collection("users")
-      .findOne({ token: cookie })
+      .findOne({ email: req.body })
       .then((result) => result._id);
 
     //get braket of user
@@ -42,14 +43,19 @@ export default async function handler(
               .db()
               .collection("games")
               .findOne({ _id: element.article })
-              .then((result) => result);
+              .then((result) => {
+                return {
+                  game: result,
+                  quantity: element.quantity,
+                };
+              });
           })
         );
         return allArticles;
       });
 
     res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ cookie: braket }));
+    res.end(JSON.stringify({ panier: braket }));
   } else {
     res.statusCode = 405;
     res.end();

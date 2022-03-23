@@ -1,7 +1,11 @@
+import { useUser } from "@auth0/nextjs-auth0";
+import Link from "next/link";
 import Layout from "./Layout";
 
 export default function GameInfo(props) {
-   const gamesJson = JSON.parse(props.game);
+  const { user, error, isLoading } = useUser();
+  const gamesJson = JSON.parse(props.game);
+
   return <Layout>
     <div className="container">
     <div className="row">
@@ -12,7 +16,8 @@ export default function GameInfo(props) {
                 <h5 className="card-title" >{gamesJson.name}</h5>
               </div>
             </div>
-          </div>
+        </div>
+        <Link href={`/api/panier/add/${gamesJson._id}?info=${user.email}`}><a>Add To Basket</a></Link>
     </div>
     </div>
   </Layout>

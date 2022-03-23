@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useCookies } from "react-cookie";
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from "react";
-
+import { useUser } from "@auth0/nextjs-auth0";
 
 
 export default function Layout({ children }) {
@@ -13,7 +13,7 @@ export default function Layout({ children }) {
     const cookie = fetch("/api/cookies").then((response) => response.json())
     cookie.then((result) => setCookie(result.cookie))
   }, []);
-console.log(cookie)
+
   useEffect(() => {
     if (cookie === undefined) {
       setAfficheConnexion(<li className="d-flex">
@@ -25,7 +25,7 @@ console.log(cookie)
           <Link href="/myprofile"><a className="nav-link">Mon Compte</a></Link>
         </li>
         <li className="d-flex">
-          <Link href="/api/panier"><a className="nav-link">Panier</a></Link>
+          <Link href="/panier"><a className="nav-link">Panier</a></Link>
           </li>
         <li className="d-flex">
           <Link href="/api/auth/logout"><a className="nav-link">Logout</a></Link>
