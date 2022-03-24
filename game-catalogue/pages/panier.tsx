@@ -1,16 +1,40 @@
 import { getAccessToken, useUser } from "@auth0/nextjs-auth0";
+import axios from "axios";
+import { ObjectId } from "mongodb";
 import { GetServerSideProps } from "next";
 import Link from "next/link";
 import { useEffect, useState } from "react"
 import { json } from "stream/consumers";
 import Layout from "../components/Layout";
+import React from 'react';
+import { loadStripe } from '@stripe/stripe-js';
 
+type Game = {
+  _id: ObjectId,
+  quantity:number
+}
+const stripePromise = loadStripe("pk_test_51Kgm6WE5ULZw6nvxhiSrYZQilH8wWRcUEhLraMqW3vvrevr4rKsqSLLXa3qQfk72BeneXd56M5Qi6eyvXCF7jeIJ00N9ImRcLw");
+export function PreviewPage() {
+  React.useEffect(() => {
+    // Check to see if this is a redirect back from Checkout
+    const query = new URLSearchParams(window.location.search);
+    if (query.get('success')) {
+      console.log('Order placed! You will receive an email confirmation.');
+    }
+
+    if (query.get('canceled')) {
+      console.log('Order canceled -- continue to shop around and checkout when you’re ready.');
+    }
+  }, []);
+}
 export default function Panier() {
 
   const [panier, setPanier] = useState([]);
   const { user, error, isLoading } = useUser();
   const [count, setcount] = useState(0);
   const [priceTotal, setPriceTotal] = useState(0);
+  const [affichePayment,setPayment] = useState(<></>)
+
 
   async function more(idGame) {
     setcount(count + 1)
@@ -68,8 +92,17 @@ export default function Panier() {
       })}
         </div>
       <div className="col-4">
-        {price}
+          {price}
+
+          <form action={`/api/checkout_sessions?panier=${JSON.stringify(panier)}`} method="POST">
+      <section>
+        <button type="submit" role="link">
+          Checkout
+        </button>
+        </section>
+        </form>
         </div>
+
     </div>
     </div>
   </Layout>
@@ -79,6 +112,10 @@ function req(req: any, res: any): { accessToken: any; } | PromiseLike<{ accessTo
 }
 
 function res(req: (req: any, res: any) => { accessToken: any; } | PromiseLike<{ accessToken: any; }>, res: any): { accessToken: any; } | PromiseLike<{ accessToken: any; }> {
+  throw new Error("Function not implemented.");
+}
+
+function getStripe() {
   throw new Error("Function not implemented.");
 }
 

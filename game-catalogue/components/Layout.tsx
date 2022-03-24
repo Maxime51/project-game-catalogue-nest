@@ -14,7 +14,8 @@ export default function Layout({ children }) {
   const option = {
     email: user?.email,
     name: user?.name
-}
+  }
+
   useEffect(() => {
     const data = fetch("/api/cookies/update", {
       method:"POST",
