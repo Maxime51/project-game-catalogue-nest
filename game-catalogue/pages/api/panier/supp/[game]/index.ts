@@ -31,20 +31,36 @@ export default async function handler(
       .then((result) => result?._id);
 
     //get user with email
-    const deleteGame = await mongodb
-      .db()
-      .collection("panier")
-      .updateOne(
-        { users: new ObjectId(idUser) },
-        {
-          $pull: {
-            content: {
-              article: new ObjectId(idGame.toString()),
+    if (req.query.supp === "true") {
+      const deleteGame = await mongodb
+        .db()
+        .collection("panier")
+        .updateOne(
+          { users: new ObjectId(idUser) },
+          {
+            $pull: {
+              content: {
+                article: new ObjectId(idGame.toString()),
+              },
             },
+          }
+        );
+    } else {
+      const addGame = await mongodb
+        .db()
+        .collection("panier")
+        .updateOne(
+          {
+            users: new ObjectId(idUser),
+            "content.article": new ObjectId(idGame.toString()),
           },
-        }
-      );
-
+          {
+            $set: {
+              "content.$.quantity": parseInt(req.query.quantity.toString()) - 1,
+            },
+          }
+        );
+    }
     res.setHeader("Content-Type", "application/json");
     res.redirect("/panier");
     res.end(JSON.stringify({ cookie: "cookie" }));

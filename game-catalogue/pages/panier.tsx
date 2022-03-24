@@ -17,16 +17,19 @@ export default function Panier() {
     await fetch(`/api/panier/add/${idGame}`)
     window.location.reload();
   }
-  function less(idGame) {
-    if (count === 0) {
-      setcount(0)
+  async function less(idGame,quantity) {
+
+    if (quantity <= 1) {
+      await fetch(`/api/panier/supp/${idGame}?supp=true`)
+      window.location.reload();
     } else {
       setcount(count - 1)
+      await fetch(`/api/panier/supp/${idGame}?supp=false&quantity=${quantity}`)
+      window.location.reload();
     }
   }
 
   useEffect(() => {
-
     const data = fetch("/api/panier", {
       method:"GET",
     }).then((response) => response.json());
@@ -51,12 +54,12 @@ export default function Panier() {
                   <h5 className="card-title">{element.game.name}</h5>
                     <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                     <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
-                    <Link href={`/api/panier/supp/${element.game._id}?info=${user.email}`}><a>Delete</a></Link>
+                    <Link href={`/api/panier/supp/${element.game._id}?info=${user.email}&supp=true`}><a>Delete</a></Link>
                 </div>
                 </div>
                 <div className="col-md-2">
                   <h3>{(parseFloat(element.game.price)) * element.quantity} $</h3>
-                  <button onClick={() => { less(element.game._id) }}>-</button><input value={`${element.quantity}`} style={{ maxWidth: "50px", textAlign: "center" }}></input><button onClick={() => { more(element.game._id) }}>+</button>
+                  <button onClick={() => {less(element.game._id,element.quantity)}}>-</button><input value={`${element.quantity}`} style={{ maxWidth: "50px", textAlign: "center" }}></input><button onClick={() => { more(element.game._id) }}>+</button>
               </div>
               </div>
             </div>
