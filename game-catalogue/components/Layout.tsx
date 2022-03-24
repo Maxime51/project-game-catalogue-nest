@@ -7,11 +7,20 @@ import { useUser } from "@auth0/nextjs-auth0";
 
 export default function Layout({ children }) {
   const [cookie, setCookie] = useState("");
+  const [count, setCount] = useState(0);
+  const { user, error, isLoading } = useUser();
   const [afficheConnexion, setAfficheConnexion] = useState(<></>);
 
+  const option = {
+    email: user?.email,
+    name: user?.name
+}
   useEffect(() => {
-    const cookie = fetch("/api/cookies").then((response) => response.json())
-    cookie.then((result) => setCookie(result.cookie))
+    const data = fetch("/api/cookies/update", {
+      method:"POST",
+      body:JSON.stringify(option)
+    }).then((response) => response.json());
+    data.then((result) => setCookie(result.cookie))
   }, []);
 
   useEffect(() => {
@@ -34,7 +43,7 @@ export default function Layout({ children }) {
   }, [cookie]);
 
   return <>
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav onClick={()=>{setCount(count + 1)}}className="navbar navbar-expand-lg navbar-light bg-light">
   <div className="container-fluid">
     <a className="navbar-brand" href="#">Navbar</a>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

@@ -13,7 +13,8 @@ export default function GameInfo(props) {
             <div className="card">
               {gamesJson?.cover?.url ? <img src={gamesJson.cover.url} style={{ height: "18rem" }} className="card-img-top" />:<img src="..." style={{ maxHeight: "18rem" }} className="card-img-top" />}
               <div className="card-body">
-                <h5 className="card-title" >{gamesJson.name}</h5>
+              <h5 className="card-title" >{gamesJson.name}</h5>
+              <h6 className="card-text" >{gamesJson.price} $</h6>
               </div>
             </div>
         </div>
