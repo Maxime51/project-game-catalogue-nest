@@ -16,7 +16,7 @@ export default async function handler(req, res) {
             quantity:element.quantity
           }
         }),
-        mode: 'payment',
+        mode: 'subscription',
         success_url: `${req.headers.origin}/api/panier/clear`,
         cancel_url: `${process.env.AUTH0_BASE_URL}/panier`,
 
