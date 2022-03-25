@@ -3,6 +3,13 @@ import { useCookies } from "react-cookie";
 import { getCookie } from 'cookies-next';
 import { useEffect, useState } from "react";
 import { useUser } from "@auth0/nextjs-auth0";
+import React from "react";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import Badge from "@material-ui/core/Badge";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Button from "@material-ui/core/Button";
+import AddIcon from "@material-ui/icons/Add";
+import RemoveIcon from "@material-ui/icons/Remove";
 
 
 export default function Layout({ children }) {
@@ -18,11 +25,13 @@ export default function Layout({ children }) {
 
   useEffect(() => {
     const data = fetch("/api/cookies/update", {
-      method:"POST",
-      body:JSON.stringify(option)
+      method: "POST",
+      body: JSON.stringify(option)
     }).then((response) => response.json());
-    data.then((result) => setCookie(result.cookie))
+    data.then((result) => setCookie(result.cookie));
+
   }, []);
+
 
   useEffect(() => {
     if (cookie === undefined) {
@@ -36,7 +45,7 @@ export default function Layout({ children }) {
         </li>
         <li className="d-flex">
           <Link href="/panier"><a className="nav-link">Panier</a></Link>
-          </li>
+        </li>
         <li className="d-flex">
           <Link href="/api/auth/logout"><a className="nav-link">Logout</a></Link>
           </li></>)
@@ -44,7 +53,7 @@ export default function Layout({ children }) {
   }, [cookie]);
 
   return <>
-    <nav onClick={()=>{setCount(count + 1)}}className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav onClick={()=>{setCount(count + 1)}}className="navbar navbar-expand-lg navbar navbar-dark bg-dark">
   <div className="container-fluid">
     <a className="navbar-brand" href="#">Navbar</a>
     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

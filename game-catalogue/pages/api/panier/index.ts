@@ -3,6 +3,7 @@ import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 import { getDatabase } from "../../../src/database";
 import { ObjectId } from "mongodb";
 import { getAccessToken } from "@auth0/nextjs-auth0";
+import { getSession } from "@auth0/nextjs-auth0";
 
 type Panier = {
   _id: ObjectId;
@@ -33,13 +34,13 @@ export default async function handler(
       }
     );
     const data = await response.json();
-
+    const session = getSession(req, res);
     const mongodb = await getDatabase();
     //get user with email
     const idUser = await mongodb
       .db()
       .collection("users")
-      .findOne({ email: data.email })
+      .findOne({ email: session.user.email })
       .then((result) => result?._id);
 
     //get braket of user

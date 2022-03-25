@@ -30,11 +30,11 @@ export default function Games({ games }) {
     {gamesJson.map((game, index) => {
       return (
           <Link href={`/game/${game.name}`}key={index}>
-          <div  className="col-sm-6" style={{ maxWidth: "18rem" }}>
+          <div  className="col-sm-md-2" style={{ maxWidth: "18rem" ,marginBottom:"1rem"}}>
             <div className="card">
-              {game?.cover?.url ? <img src={game.cover.url} style={{ maxHeight: "18rem" }} className="card-img-top" />:<img src="..." style={{ maxHeight: "18rem" }} className="card-img-top" />}
+              {game?.cover?.url ? <img src={game.cover.url} style={{ height: "16rem" }} className="card-img-top" />:<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" style={{ height: "16rem" }} className="card-img-top" />}
               <div className="card-body">
-                <h5 className="card-title" >{game.name}</h5>
+                <h5 className="card-title" style={{ fontSize: "12px",height:"15px",textAlign:"center" }} >{game.name}</h5>
               </div>
             </div>
           </div>

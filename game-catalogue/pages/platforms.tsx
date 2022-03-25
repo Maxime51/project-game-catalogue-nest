@@ -36,11 +36,11 @@ export default function Games({ platforms }) {
     {platforms.map((platform, index) => {
       return (
         <Link key={index} href={`/platforms/${platform.name}`}>
-          <div  className="col-sm-6" style={{ width: "18rem" }}>
+          <div  className="col-sm-md-2" style={{ maxWidth: "18rem" ,marginBottom:"1rem" }}>
             <div className="card">
-              {platform?.platform_logo_url ? <img src={platform.platform_logo_url} style={{ height: "18rem" }} className="card-img-top" />:<img src="..." style={{ height: "18rem" }} className="card-img-top" />}
+              {platform?.platform_logo_url ? <img src={platform.platform_logo_url} style={{ height: "16rem" }} className="card-img-top" />:<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/1024px-No_image_available.svg.png" style={{ height: "16rem" }} className="card-img-top" />}
               <div className="card-body">
-                <h5 className="card-title" >{platform.name}</h5>
+                <h5 className="card-title" style={{ fontSize: "12px",height:"15px",textAlign:"center" }}>{platform.name}</h5>
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@ import { getCookie } from "cookies-next";
 import { ObjectId } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getDatabase } from "../../../../../src/database";
+import { getSession } from "@auth0/nextjs-auth0";
 
 export default async function handler(
   req: NextApiRequest,
@@ -11,6 +12,7 @@ export default async function handler(
   if (req.method === "GET") {
     const idGame = req.query.game;
     const cookie = getCookie("appSession", { req, res });
+    const session = getSession(req, res);
 
     const { accessToken } = await getAccessToken(req, res);
 
@@ -29,7 +31,7 @@ export default async function handler(
     const idUser = await mongodb
       .db()
       .collection("users")
-      .findOne({ email: data.email })
+      .findOne({ email: session.user.email })
       .then((result) => result._id);
 
     //get user with email

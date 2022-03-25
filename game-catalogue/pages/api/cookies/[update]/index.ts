@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { getCookies, getCookie, setCookies, removeCookies } from "cookies-next";
 import { getDatabase } from "../../../../src/database";
+import { getSession } from "@auth0/nextjs-auth0";
 
 export default async function handler(
   req: NextApiRequest,
@@ -10,9 +11,10 @@ export default async function handler(
     const cookie = getCookie("appSession", { req, res });
     const mongodb = await getDatabase();
     const data = JSON.parse(req.body);
+    const session = getSession(req, res);
 
     const user = await mongodb.db().collection("users").findOne({
-      email: data.email,
+      email: session.user.email,
     });
 
     if (user === null) {
@@ -22,7 +24,7 @@ export default async function handler(
           .collection("users")
           .insertOne({
             name: data.name,
-            email: data.email,
+            email: session.user.email,
             token: cookie,
           })
           .then((result) => result.insertedId);
@@ -39,7 +41,7 @@ export default async function handler(
       .collection("users")
       .updateOne(
         {
-          email: data.email,
+          email: session.user.email,
         },
         {
           $set: {

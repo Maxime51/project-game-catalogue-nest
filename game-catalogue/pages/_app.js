@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { UserProvider } from '@auth0/nextjs-auth0';
-import { CookiesProvider } from "react-cookie"
+import { CookiesProvider } from "react-cookie";
+import '../styles/globals.css';
 
 
 function MyApp({ Component, pageProps }) {

@@ -38,18 +38,27 @@ export default function Panier() {
 
   async function more(idGame) {
     setcount(count + 1)
-    await fetch(`/api/panier/add/${idGame}`)
-    window.location.reload();
+    await fetch(`/api/panier/add/${idGame}`);
+    const data = fetch("/api/panier", {
+      method:"GET",
+    }).then((response) => response.json());
+    data.then((result) => setPanier(result.panier))
   }
   async function less(idGame,quantity) {
 
     if (quantity <= 1) {
       await fetch(`/api/panier/supp/${idGame}?supp=true`)
-      window.location.reload();
+      const data = fetch("/api/panier", {
+      method:"GET",
+    }).then((response) => response.json());
+    data.then((result) => setPanier(result.panier))
     } else {
       setcount(count - 1)
       await fetch(`/api/panier/supp/${idGame}?supp=false&quantity=${quantity}`)
-      window.location.reload();
+      const data = fetch("/api/panier", {
+      method:"GET",
+    }).then((response) => response.json());
+    data.then((result) => setPanier(result.panier))
     }
   }
 
@@ -60,15 +69,16 @@ export default function Panier() {
     data.then((result) => setPanier(result.panier))
 
   }, []);
+
   let price = 0;
   return <Layout>
     <div className="container">
     <div className="row">
-    <div className="col-8">
+    <div className="col-sm-8">
       {panier.map((element, index) => {
         price += ((parseFloat(element.game.price)) * parseFloat(element.quantity));
           return (
-          <div key={index} className="card mb-3" style={{ maxWidth: "1000px", height:"200px" }}>
+          <div key={index} className="card mb-5" style={{ maxWidth: "1000px", height:"250px" }}>
             <div className="row g-0">
               <div className="col-md-4">
                 <img src={element.game.cover.url} style={{ width: "200px", height:"200px" }}className="img-fluid rounded-start" alt="..." />
@@ -78,12 +88,12 @@ export default function Panier() {
                   <h5 className="card-title">{element.game.name}</h5>
                     <p className="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
                     <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
-                    <Link href={`/api/panier/supp/${element.game._id}?info=${user.email}&supp=true`}><a>Delete</a></Link>
+                    <a href={`/api/panier/supp/${element.game._id}?info=${user?.email}&supp=true`}><button className="btn btn-primary">Delete</button></a>
                 </div>
                 </div>
                 <div className="col-md-2">
                   <h3>{(parseFloat(element.game.price)) * element.quantity} €</h3>
-                  <button onClick={() => {less(element.game._id,element.quantity)}}>-</button><input value={`${element.quantity}`} style={{ maxWidth: "50px", textAlign: "center" }}></input><button onClick={() => { more(element.game._id) }}>+</button>
+                  <button onClick={() => {less(element.game._id,element.quantity)}}>-</button><input placeholder={`${element.quantity}`} style={{ maxWidth: "50px", textAlign: "center" }}></input><button onClick={() => { more(element.game._id) }}>+</button>
               </div>
               </div>
             </div>
@@ -92,12 +102,11 @@ export default function Panier() {
       })}
         </div>
       <div className="col-4">
-          {price}
-
+          <h1>Total basket : {price} €</h1>
           <form action={`/api/checkout_sessions?panier=${JSON.stringify(panier)}`} method="POST">
       <section>
-        <button type="submit" role="link">
-          Checkout
+        <button type="submit" className="btn btn-primary" role="link">
+          Payment
         </button>
         </section>
         </form>

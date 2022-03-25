@@ -8,7 +8,6 @@ export default async function handler(req, res) {
     try {
       // Create Checkout Sessions from body params.
       const panier = await JSON.parse(req.query.panier)
-      console.log(panier)
       const session = await stripe.checkout.sessions.create({
         line_items: panier.map((element) => {
           return {
