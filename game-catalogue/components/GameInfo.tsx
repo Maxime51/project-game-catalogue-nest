@@ -21,11 +21,13 @@ export default function GameInfo(props) {
           <p className="lead">{gamesJson.summary}</p>
               <p>Price :{gamesJson.price} €</p><br></br>
               <div className="d-flex">
-                <a href="/api/auth/login">
+                <Link href="/api/auth/login">
+                <a>
                   <button type="button" className="btn btn-lg btn-danger" data-bs-toggle="popover" title="Add to basket" data-bs-content="add to Basket with success!">
                     Login
                   </button>
-                </a>
+                  </a>
+                  </Link>
               </div>
       </div>
     </div>
@@ -47,12 +49,13 @@ export default function GameInfo(props) {
               <p className="lead">{gamesJson.summary}</p>
               <p>Price :{gamesJson.price} €</p><br></br>
               <div className="d-flex">
-                <a href={`/api/panier/add/${gamesJson._id}?info=${user?.email}`}>
+                <Link href={`/api/panier/add/${gamesJson._id}?info=${user?.email}`}>
+                <a >
                   <button type="button" className="btn btn-lg btn-danger" data-bs-toggle="popover" title="Add to basket" data-bs-content="add to Basket with success!">
                     Add to Basket
                   </button>
                 </a>
-
+</Link>
               </div>
             </div>
           </div>
