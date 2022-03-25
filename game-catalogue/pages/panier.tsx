@@ -95,7 +95,7 @@ export default function Panier() {
                 </div>
                 <div className="col-md-2">
 
-                  <h3>{((element.game.price) * element.quantity).toString()} €</h3>
+                  <h3>{Math.round(((element.game.price) * element.quantity) * 100) / 100} €</h3>
                   <button onClick={() => {less(element.game._id,element.quantity)}}>-</button><input placeholder={`${element.quantity}`} style={{ maxWidth: "50px", textAlign: "center" }}></input><button onClick={() => { more(element.game._id) }}>+</button>
               </div>
               </div>
