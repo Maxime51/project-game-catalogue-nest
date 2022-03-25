@@ -78,7 +78,7 @@ export default function Panier() {
     <div className="col-sm-8">
           {panier.map((element, index) => {
         paniersend.push({payment:element.game.payment,quantity:element.quantity})
-        price += ((parseFloat(element.game.price)) * parseFloat(element.quantity));
+        price += (((element.game.price)) * (element.quantity));
           return (
           <div key={index} className="card mb-5" style={{ maxWidth: "1000px", height:"250px" }}>
             <div className="row g-0">
@@ -94,7 +94,8 @@ export default function Panier() {
                 </div>
                 </div>
                 <div className="col-md-2">
-                  <h3>{(parseFloat(element.game.price)) * element.quantity} €</h3>
+
+                  <h3>{((element.game.price) * element.quantity).toString()} €</h3>
                   <button onClick={() => {less(element.game._id,element.quantity)}}>-</button><input placeholder={`${element.quantity}`} style={{ maxWidth: "50px", textAlign: "center" }}></input><button onClick={() => { more(element.game._id) }}>+</button>
               </div>
               </div>
@@ -104,7 +105,7 @@ export default function Panier() {
       })}
         </div>
       <div className="col-4">
-          <h1>Total basket : {price} €</h1>
+          <h1>Total basket : {Math.round(price * 100) / 100} €</h1>
           <form action={`/api/checkout_sessions?panier=${JSON.stringify(paniersend)}`} method="POST">
       <section>
         <button type="submit" className="btn btn-primary" role="link">

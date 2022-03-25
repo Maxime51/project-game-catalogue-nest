@@ -14,7 +14,7 @@ export default async function handler(
     const session = getSession(req, res);
 
     const user = await mongodb.db().collection("users").findOne({
-      email: session.user.email,
+      email: session?.user.email,
     });
 
     if (user === null) {
@@ -24,7 +24,7 @@ export default async function handler(
           .collection("users")
           .insertOne({
             name: data.name,
-            email: session.user.email,
+            email: session?.user.email,
             token: cookie,
           })
           .then((result) => result.insertedId);
@@ -41,7 +41,7 @@ export default async function handler(
       .collection("users")
       .updateOne(
         {
-          email: session.user.email,
+          email: session?.user.email,
         },
         {
           $set: {
