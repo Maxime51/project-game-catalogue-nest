@@ -19,7 +19,14 @@ export default function GameInfo(props) {
           <div className="fs-5 mb-5">
           </div>
           <p className="lead">{gamesJson.summary}</p>
-          <p>Price :{gamesJson.price} €</p><br></br>
+              <p>Price :{gamesJson.price} €</p><br></br>
+              <div className="d-flex">
+                <a href="/api/auth/login">
+                  <button type="button" className="btn btn-lg btn-danger" data-bs-toggle="popover" title="Add to basket" data-bs-content="add to Basket with success!">
+                    Login
+                  </button>
+                </a>
+              </div>
       </div>
     </div>
   </div>

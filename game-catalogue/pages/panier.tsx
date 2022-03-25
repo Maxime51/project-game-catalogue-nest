@@ -106,13 +106,13 @@ export default function Panier() {
         </div>
       <div className="col-4">
           <h1>Total basket : {Math.round(price * 100) / 100} €</h1>
-          <form action={`/api/checkout_sessions?panier=${JSON.stringify(paniersend)}`} method="POST">
-      <section>
+          {panier.length === 0 ? <div></div> : <form action={`/api/checkout_sessions?panier=${JSON.stringify(paniersend)}`} method="POST">
+            <section>
         <button type="submit" className="btn btn-primary" role="link">
           Payment
         </button>
         </section>
-        </form>
+        </form>}
         </div>
 
     </div>

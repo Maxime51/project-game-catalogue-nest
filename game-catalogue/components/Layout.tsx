@@ -41,10 +41,10 @@ export default function Layout({ children }) {
     } else {
       setAfficheConnexion(<>
         <li className="d-flex">
-          <Link href="/myprofile"><a className="nav-link">Mon Compte</a></Link>
+          <Link href="/myprofile"><a className="nav-link">My Account</a></Link>
         </li>
         <li className="d-flex">
-          <Link href="/panier"><a className="nav-link">Panier</a></Link>
+          <Link href="/panier"><a className="nav-link">Basket</a></Link>
         </li>
         <li className="d-flex">
           <Link href="/api/auth/logout"><a className="nav-link">Logout</a></Link>
