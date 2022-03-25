@@ -7,11 +7,12 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       // Create Checkout Sessions from body params.
+
       const panier = await JSON.parse(req.query.panier)
       const session = await stripe.checkout.sessions.create({
         line_items: panier.map((element) => {
           return {
-            price: element.game.payment,
+            price: element.payment,
             quantity:element.quantity
           }
         }),

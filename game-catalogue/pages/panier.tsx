@@ -71,11 +71,13 @@ export default function Panier() {
   }, []);
 
   let price = 0;
+  const paniersend = [];
   return <Layout>
     <div className="container">
     <div className="row">
     <div className="col-sm-8">
-      {panier.map((element, index) => {
+          {panier.map((element, index) => {
+        paniersend.push({payment:element.game.payment,quantity:element.quantity})
         price += ((parseFloat(element.game.price)) * parseFloat(element.quantity));
           return (
           <div key={index} className="card mb-5" style={{ maxWidth: "1000px", height:"250px" }}>
@@ -103,7 +105,7 @@ export default function Panier() {
         </div>
       <div className="col-4">
           <h1>Total basket : {price} €</h1>
-          <form action={`/api/checkout_sessions?panier=${JSON.stringify(panier)}`} method="POST">
+          <form action={`/api/checkout_sessions?panier=${JSON.stringify(paniersend)}`} method="POST">
       <section>
         <button type="submit" className="btn btn-primary" role="link">
           Payment
